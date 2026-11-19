@@ -16,16 +16,17 @@ export const About: React.FC<AboutProps> = ({ onSelectService }) => {
             <SectionHeading
               eyebrow="ABOUT EASE AND TRAVEL"
               title="TRAVEL MADE EFFORTLESS"
+              subtitle="Where international executive standards meet seamless ground mobility and bespoke travel concierge."
               align="left"
               className="mb-8"
             />
 
             <div className="space-y-5 text-slate-700 text-base md:text-lg leading-relaxed font-normal">
               <p>
-                At <strong className="text-brand-navy-950 font-semibold">EASE AND TRAVEL</strong>, we believe every journey should be comfortable, convenient, and memorable. We bring together premium car rental options and essential travel booking services to make planning your next journey easier.
+                At <strong className="text-brand-navy-950 font-semibold">EASE AND TRAVEL</strong>, we believe every journey should be comfortable, convenient, and memorable. We unite a premier collection of authentic luxury vehicles with essential travel booking services to make planning your next itinerary completely effortless.
               </p>
               <p className="text-slate-600 text-sm md:text-base leading-relaxed">
-                Whether you are looking for a premium vehicle, assistance with ticket bookings, or a hotel reservation, EASE AND TRAVEL is here to help you plan your travel experience with tailored attention to your personal travel requirements.
+                Whether you require an executive chauffeur for high-level corporate mobility, punctual airport transfers, or dedicated assistance with flight and luxury hotel reservations, EASE AND TRAVEL delivers discreet, personalized attention tailored to your exact schedule.
               </p>
             </div>
 
@@ -40,13 +41,13 @@ export const About: React.FC<AboutProps> = ({ onSelectService }) => {
                   <Car className="w-5 h-5" />
                 </div>
                 <h4 className="font-serif text-lg font-bold text-brand-navy-950 mb-1">
-                  Car Rentals
+                  Chauffeur Fleet
                 </h4>
                 <p className="text-xs text-slate-500 leading-relaxed">
-                  Executive sedans, luxury MPVs, SUVs &amp; passenger vans.
+                  Real executive saloons, electric flagships, luxury MPVs &amp; coaches.
                 </p>
                 <span className="mt-3 inline-flex items-center text-xs font-semibold text-brand-gold-700 group-hover:text-brand-gold-600 gap-1">
-                  <span>Explore</span>
+                  <span>Explore Fleet</span>
                   <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                 </span>
               </div>
@@ -63,10 +64,10 @@ export const About: React.FC<AboutProps> = ({ onSelectService }) => {
                   Ticket Bookings
                 </h4>
                 <p className="text-xs text-slate-500 leading-relaxed">
-                  Air flights, scenic train journeys &amp; intercity coaches.
+                  Domestic &amp; international flights, scenic rail &amp; modern intercity coaches.
                 </p>
                 <span className="mt-3 inline-flex items-center text-xs font-semibold text-brand-gold-700 group-hover:text-brand-gold-600 gap-1">
-                  <span>Enquire</span>
+                  <span>Enquire Tickets</span>
                   <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                 </span>
               </div>
@@ -83,10 +84,10 @@ export const About: React.FC<AboutProps> = ({ onSelectService }) => {
                   Hotel Bookings
                 </h4>
                 <p className="text-xs text-slate-500 leading-relaxed">
-                  Luxury resorts, business stays &amp; boutique retreats.
+                  5-star luxury resorts, executive business hotels &amp; boutique retreats.
                 </p>
                 <span className="mt-3 inline-flex items-center text-xs font-semibold text-brand-gold-700 group-hover:text-brand-gold-600 gap-1">
-                  <span>Discover</span>
+                  <span>Discover Stays</span>
                   <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                 </span>
               </div>
@@ -96,15 +97,15 @@ export const About: React.FC<AboutProps> = ({ onSelectService }) => {
             <div className="mt-8 pt-6 border-t border-slate-200 flex flex-wrap gap-x-8 gap-y-3">
               <div className="flex items-center gap-2 text-xs font-medium text-slate-700">
                 <CheckCircle2 className="w-4 h-4 text-brand-gold-600" />
-                <span>Verified Vehicle Fleet</span>
+                <span>Verified Real Vehicles</span>
               </div>
               <div className="flex items-center gap-2 text-xs font-medium text-slate-700">
                 <CheckCircle2 className="w-4 h-4 text-brand-gold-600" />
-                <span>Responsive Coordination</span>
+                <span>Uniformed Professional Chauffeurs</span>
               </div>
               <div className="flex items-center gap-2 text-xs font-medium text-slate-700">
                 <CheckCircle2 className="w-4 h-4 text-brand-gold-600" />
-                <span>Delhi Based Mobility Desk</span>
+                <span>Delhi Central Mobility Concierge</span>
               </div>
             </div>
           </div>
@@ -133,7 +134,7 @@ export const About: React.FC<AboutProps> = ({ onSelectService }) => {
               {/* Floating Badge */}
               <div className="absolute -bottom-6 -left-6 sm:-left-8 bg-brand-navy-950 text-white p-5 rounded-xl shadow-2xl border border-brand-gold-500/40 max-w-[220px]">
                 <div className="text-2xl font-serif font-bold text-brand-gold-400">
-                  10+ Models
+                  10+ Real Models
                 </div>
                 <div className="text-xs text-slate-300 mt-0.5 leading-snug">
                   From executive sedans to electric flagships and luxury VIP MPVs.

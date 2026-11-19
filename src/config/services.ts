@@ -120,26 +120,26 @@ export const HOTEL_BOOKING_SERVICE: ServiceDetail = {
 export const WHY_CHOOSE_US = [
   {
     id: "premium-fleet",
-    title: "Premium Vehicle Options",
-    description: "Explore a curated selection of executive and luxury vehicles meticulously maintained for supreme travel comfort.",
+    title: "Verified Signature Fleet",
+    description: "Authentic, showroom-condition executive sedans, electric flagships, luxury MPVs, and passenger coaches maintained to stringent safety protocols.",
     icon: "CarFront"
   },
   {
     id: "travel-assistance",
-    title: "Travel Booking Assistance",
-    description: "Get in touch for prompt ticket booking enquiries covering air, rail, and road travel coordination.",
+    title: "Flight & Rail Ticketing",
+    description: "End-to-end ticketing coordination across domestic and international airlines, executive chair cars, and private coach chartering.",
     icon: "Compass"
   },
   {
     id: "hotel-reservations",
-    title: "Hotel Booking Assistance",
-    description: "Contact us for hotel reservation enquiries tailored to your preferred destination, style, and itinerary.",
+    title: "5-Star Hotel & Resort Stays",
+    description: "Curated lodging reservations connecting you with premier luxury suites, central business hotels, and bespoke heritage retreats.",
     icon: "Hotel"
   },
   {
     id: "direct-support",
-    title: "Direct Customer Support",
-    description: "Connect directly with our dedicated team via WhatsApp and phone for immediate personal attention to your travel requirements.",
+    title: "Direct Chauffeur Concierge",
+    description: "Connect immediately with our New Delhi mobility desk via WhatsApp and phone for immediate itinerary quotes and real-time support.",
     icon: "PhoneCall"
   }
 ];

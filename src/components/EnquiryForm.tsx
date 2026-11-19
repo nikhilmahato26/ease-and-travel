@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { MessageSquare, CheckCircle, AlertCircle, Loader2, Sparkles } from 'lucide-react';
-import { enquiryFormSchema, EnquiryFormData, serviceOptions, vehicleOptions } from '../types';
+import { MessageSquare, CheckCircle, AlertCircle, Loader2, Sparkles, ShieldCheck } from 'lucide-react';
+import { enquiryFormSchema, EnquiryFormData, serviceOptions, vehicleOptions, tripTypeOptions } from '../types';
 import { BUSINESS_CONFIG, createWhatsAppUrl } from '../config/business';
 import { Button } from './Button';
 
@@ -31,6 +31,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
       phone: "",
       email: "",
       serviceRequired: (initialService as any) || "Car Rental",
+      tripType: "Airport Transfer (Meet & Greet)",
       vehicleSelection: initialVehicle || "Mercedes-Benz E-Class",
       travelDate: "",
       pickupLocation: "",
@@ -58,8 +59,8 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
 
     // Construct structured WhatsApp message
     let lines = [
-      `*NEW ENQUIRY - EASE AND TRAVEL*`,
-      `--------------------------------`,
+      `*OFFICIAL RESERVATION ENQUIRY - EASE AND TRAVEL*`,
+      `------------------------------------------------`,
       `*Client Name:* ${data.fullName}`,
       `*Contact:* ${data.phone}`,
     ];
@@ -68,18 +69,22 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
       lines.push(`*Email:* ${data.email}`);
     }
 
-    lines.push(`*Service Requested:* ${data.serviceRequired}`);
+    lines.push(`*Service Category:* ${data.serviceRequired}`);
+
+    if (data.tripType) {
+      lines.push(`*Trip Requirement:* ${data.tripType}`);
+    }
 
     if (data.serviceRequired === "Car Rental" && data.vehicleSelection && data.vehicleSelection !== "Not Applicable") {
-      lines.push(`*Vehicle Selection:* ${data.vehicleSelection}`);
+      lines.push(`*Requested Fleet Model:* ${data.vehicleSelection}`);
     }
 
     if (data.travelDate) {
-      lines.push(`*Travel Date:* ${data.travelDate}`);
+      lines.push(`*Scheduled Date:* ${data.travelDate}`);
     }
 
     if (data.pickupLocation) {
-      lines.push(`*Pickup Location / Origin:* ${data.pickupLocation}`);
+      lines.push(`*Origin / Pickup Hub:* ${data.pickupLocation}`);
     }
 
     if (data.destination) {
@@ -87,17 +92,17 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
     }
 
     if (data.message) {
-      lines.push(`*Client Note:* ${data.message}`);
+      lines.push(`*Specific Requirements:* ${data.message}`);
     }
 
-    lines.push(`--------------------------------`);
-    lines.push(`_Kindly confirm vehicle availability and reservation assistance._`);
+    lines.push(`------------------------------------------------`);
+    lines.push(`_Kindly confirm vehicle availability, chauffeur assignment, and quotation._`);
 
     const finalMessage = lines.join('\n');
     const whatsappUrl = createWhatsAppUrl(finalMessage);
 
     setIsSubmitting(false);
-    setSubmissionSuccess("Your enquiry is ready. Continue in WhatsApp to contact EASE AND TRAVEL.");
+    setSubmissionSuccess("Your enquiry is formatted and ready. Continue in WhatsApp to receive your official quotation.");
 
     // Open WhatsApp in new tab
     window.open(whatsappUrl, '_blank');
@@ -109,14 +114,17 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
       <div className="absolute top-0 left-0 right-0 h-1.5 bg-gold-gradient" />
 
       <div className="mb-8">
-        <span className="text-[11px] font-semibold tracking-[0.25em] uppercase text-brand-gold-600 block mb-1">
-          Direct Booking Desk
-        </span>
+        <div className="flex items-center gap-2 mb-1.5">
+          <span className="w-2 h-2 rounded-full bg-brand-gold-500"></span>
+          <span className="text-[11px] font-semibold tracking-[0.25em] uppercase text-brand-gold-700 block">
+            Executive Concierge Desk
+          </span>
+        </div>
         <h3 className="font-serif text-2xl sm:text-3xl font-bold text-brand-navy-950">
           Request an Official Travel Quotation
         </h3>
-        <p className="text-xs sm:text-sm text-slate-600 mt-2">
-          Submit your requirements below. Our team will review availability and connect with you directly via WhatsApp or phone.
+        <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+          Submit your travel requirements below. Our concierge desk will review vehicle availability and provide immediate confirmation via WhatsApp and telephone.
         </p>
       </div>
 
@@ -126,7 +134,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
           <div className="text-xs sm:text-sm">
             <p className="font-semibold">{submissionSuccess}</p>
             <p className="text-emerald-700 mt-1">
-              If WhatsApp did not open automatically,{' '}
+              If WhatsApp did not launch automatically,{' '}
               <button
                 type="button"
                 onClick={handleSubmit(onSubmit)}
@@ -149,7 +157,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
             <input
               type="text"
               {...register("fullName")}
-              placeholder="e.g. Rahul Sharma"
+              placeholder="e.g. Vikramaditya Singhania"
               className={`w-full px-4 py-3 rounded-md text-sm border bg-slate-50/50 text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-gold-400 transition-all ${
                 errors.fullName ? 'border-red-400 bg-red-50/30' : 'border-slate-300'
               }`}
@@ -192,7 +200,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
             <input
               type="email"
               {...register("email")}
-              placeholder="e.g. rahul@example.com"
+              placeholder="e.g. corporate@company.com"
               className={`w-full px-4 py-3 rounded-md text-sm border bg-slate-50/50 text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-gold-400 transition-all ${
                 errors.email ? 'border-red-400 bg-red-50/30' : 'border-slate-300'
               }`}
@@ -207,7 +215,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
 
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-slate-800 mb-1.5">
-              Service Required <span className="text-brand-gold-600">*</span>
+              Service Category <span className="text-brand-gold-600">*</span>
             </label>
             <select
               {...register("serviceRequired")}
@@ -222,12 +230,29 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
           </div>
         </div>
 
+        {/* Trip Type Selector */}
+        <div>
+          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-800 mb-1.5">
+            Trip Type / Requirement
+          </label>
+          <select
+            {...register("tripType")}
+            className="w-full px-4 py-3 rounded-md text-sm border border-slate-300 bg-slate-50/50 text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-gold-400 transition-all cursor-pointer"
+          >
+            {tripTypeOptions.map((tt) => (
+              <option key={tt} value={tt}>
+                {tt}
+              </option>
+            ))}
+          </select>
+        </div>
+
         {/* CONDITIONAL: Vehicle Selection (Only when Car Rental is selected) */}
         {selectedService === "Car Rental" && (
           <div className="p-4 rounded-lg bg-brand-gold-50/60 border border-brand-gold-200 transition-all animate-fadeIn">
             <label className="block text-xs font-bold uppercase tracking-wider text-brand-navy-950 mb-1.5 flex items-center gap-1.5">
               <Sparkles className="w-4 h-4 text-brand-gold-600" />
-              <span>Select Luxury Vehicle</span>
+              <span>Select Real Fleet Vehicle</span>
             </label>
             <select
               {...register("vehicleSelection")}
@@ -239,9 +264,10 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
                 </option>
               ))}
             </select>
-            <p className="text-[11px] text-brand-navy-800 mt-1.5">
-              Choose from our signature fleet of sedans, luxury MPVs, SUVs, and passenger vans.
-            </p>
+            <div className="flex items-center gap-2 mt-2 text-[11px] text-brand-navy-900">
+              <ShieldCheck className="w-3.5 h-3.5 text-brand-gold-600" />
+              <span>Chauffeur-driven &bull; Fully insured &bull; Sanitized before every dispatch</span>
+            </div>
           </div>
         )}
 
@@ -260,24 +286,24 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
 
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-slate-800 mb-1.5">
-              Pickup / Origin
+              Pickup / Origin Hub
             </label>
             <input
               type="text"
               {...register("pickupLocation")}
-              placeholder="e.g. New Delhi, Airport"
+              placeholder="e.g. New Delhi IGI T3 / Aerocity"
               className="w-full px-4 py-3 rounded-md text-sm border border-slate-300 bg-slate-50/50 text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-gold-400 transition-all"
             />
           </div>
 
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-slate-800 mb-1.5">
-              Destination / Drop
+              Destination / Route
             </label>
             <input
               type="text"
               {...register("destination")}
-              placeholder="e.g. Agra, Jaipur, Hotel"
+              placeholder="e.g. Agra, Jaipur, Gurgaon, Hotel"
               className="w-full px-4 py-3 rounded-md text-sm border border-slate-300 bg-slate-50/50 text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-gold-400 transition-all"
             />
           </div>
@@ -286,12 +312,12 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
         {/* Custom Message */}
         <div>
           <label className="block text-xs font-semibold uppercase tracking-wider text-slate-800 mb-1.5">
-            Additional Travel Specifications
+            Bespoke Specifications / Itinerary Notes
           </label>
           <textarea
             {...register("message")}
             rows={3}
-            placeholder="Please mention any special itineraries, timing preferences, or specific passenger requirements..."
+            placeholder="Please mention flight numbers, timing preferences, passenger count, luggage size, or specific VIP arrangements..."
             className="w-full px-4 py-3 rounded-md text-sm border border-slate-300 bg-slate-50/50 text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-gold-400 transition-all resize-y"
           ></textarea>
         </div>
@@ -306,11 +332,11 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
             disabled={isSubmitting}
             icon={isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <MessageSquare className="w-5 h-5" />}
           >
-            {isSubmitting ? "Preparing Enquiry..." : "Continue Enquiry in WhatsApp"}
+            {isSubmitting ? "Formatting Itinerary..." : "Continue Reservation in WhatsApp"}
           </Button>
 
           <p className="text-center text-xs text-slate-500 mt-3">
-            Clicking will format your itinerary into a direct WhatsApp message to <span className="font-semibold text-brand-navy-950">{BUSINESS_CONFIG.phoneDisplay}</span>.
+            Clicking will format your complete itinerary into a direct WhatsApp message to <span className="font-semibold text-brand-navy-950">{BUSINESS_CONFIG.phoneDisplay}</span>.
           </p>
         </div>
       </form>

@@ -7,6 +7,16 @@ export const serviceOptions = [
   "General Enquiry"
 ] as const;
 
+export const tripTypeOptions = [
+  "Airport Transfer (Meet & Greet)",
+  "City Executive Chauffeur (8 Hrs / 80 Km)",
+  "Intercity / Outstation Journey",
+  "Multi-Day Corporate / Wedding Hire",
+  "Flight / Rail Ticketing Coordination",
+  "Luxury Hotel / Resort Reservation",
+  "General Concierge Enquiry"
+] as const;
+
 export const vehicleOptions = [
   "Toyota Prius",
   "Toyota Camry",
@@ -28,6 +38,7 @@ export const enquiryFormSchema = z.object({
   serviceRequired: z.enum(serviceOptions, {
     errorMap: () => ({ message: "Please select a service" })
   }),
+  tripType: z.string().optional(),
   vehicleSelection: z.string().optional(),
   travelDate: z.string().optional(),
   pickupLocation: z.string().optional(),
