@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, MessageSquare, MapPin, Mail, Clock, ShieldAlert, ArrowUpRight } from 'lucide-react';
+import { Phone, MessageSquare, MapPin, Mail, Clock, ShieldAlert, ArrowUpRight, QrCode, ShieldCheck, Download } from 'lucide-react';
 import { SectionHeading } from '../components/SectionHeading';
 import { EnquiryForm } from '../components/EnquiryForm';
 import { BUSINESS_CONFIG, createWhatsAppUrl } from '../config/business';
@@ -7,9 +7,10 @@ import { BUSINESS_CONFIG, createWhatsAppUrl } from '../config/business';
 interface ContactProps {
   selectedService?: string;
   selectedVehicle?: string;
+  onOpenPayment?: () => void;
 }
 
-export const Contact: React.FC<ContactProps> = ({ selectedService, selectedVehicle }) => {
+export const Contact: React.FC<ContactProps> = ({ selectedService, selectedVehicle, onOpenPayment }) => {
   return (
     <section id="contact" className="py-20 md:py-28 bg-[#FAF9F6] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -21,15 +22,16 @@ export const Contact: React.FC<ContactProps> = ({ selectedService, selectedVehic
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left Column: Business Contact Dossier (5 cols) */}
-          <div className="lg:col-span-5 space-y-8">
+          {/* Left Column: Business Contact Dossier & Official Payment QR (5 cols) */}
+          <div className="lg:col-span-5 space-y-6">
+            {/* Business Contact Card */}
             <div className="bg-brand-navy-950 text-white rounded-xl p-6 sm:p-8 shadow-xl border border-brand-gold-500/20">
               <div className="flex items-center gap-3 mb-6">
-                <div className="bg-white p-2 rounded border border-brand-gold-500/40">
+                <div className="relative">
                   <img
-                    src="/assets/logo/logo.jpg"
+                    src="/assets/logo/logo-dark.png"
                     alt="EASE AND TRAVEL Logo"
-                    className="h-10 w-auto object-contain"
+                    className="h-12 w-auto object-contain drop-shadow-md"
                   />
                 </div>
                 <div>
@@ -151,6 +153,78 @@ export const Contact: React.FC<ContactProps> = ({ selectedService, selectedVehic
               </div>
             </div>
 
+            {/* Official Payment Barcode / UPI QR Code Card */}
+            <div className="bg-white rounded-xl p-6 sm:p-7 border-2 border-brand-gold-500/30 shadow-lg relative overflow-hidden">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-brand-gold-500/10 text-brand-gold-700 flex items-center justify-center">
+                    <QrCode className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="font-serif text-lg font-bold text-brand-navy-950">
+                      Official Payment Barcode
+                    </h4>
+                    <span className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold block">
+                      PhonePe &bull; Google Pay &bull; Paytm &bull; Any UPI
+                    </span>
+                  </div>
+                </div>
+
+                <span className="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1">
+                  <ShieldCheck className="w-3 h-3" />
+                  <span>Verified</span>
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 items-center">
+                {/* QR Code thumbnail */}
+                <div className="sm:col-span-5 bg-slate-50 p-3 rounded-lg border border-slate-200 text-center">
+                  <img
+                    src="/assets/payment/phonepe-qr.jpg"
+                    alt="PhonePe QR Code - ABHISHEK BASOYA"
+                    className="w-full max-w-[170px] h-auto object-contain mx-auto rounded shadow-sm"
+                  />
+                  <span className="text-[10px] font-bold text-slate-900 block mt-1.5">
+                    ABHISHEK BASOYA
+                  </span>
+                </div>
+
+                {/* Details & CTA */}
+                <div className="sm:col-span-7 space-y-3">
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    Scan using PhonePe or any UPI application to pay your reservation token or advance amount.
+                  </p>
+
+                  <div className="text-[11px] text-slate-500 space-y-1 bg-slate-50 p-2.5 rounded border border-slate-100">
+                    <div>&bull; Instant payment confirmation</div>
+                    <div>&bull; Share screenshot for immediate receipt</div>
+                  </div>
+
+                  <div className="flex items-center gap-2 pt-1">
+                    {onOpenPayment && (
+                      <button
+                        type="button"
+                        onClick={onOpenPayment}
+                        className="py-2 px-3 rounded bg-brand-navy-950 hover:bg-brand-navy-850 text-white text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 shadow-sm transition-colors"
+                      >
+                        <QrCode className="w-3.5 h-3.5 text-brand-gold-400" />
+                        <span>Enlarge QR</span>
+                      </button>
+                    )}
+
+                    <a
+                      href="/assets/payment/phonepe-qr-full.jpg"
+                      download="PhonePe-QR-EaseAndTravel.jpg"
+                      className="py-2 px-3 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold uppercase tracking-wider flex items-center gap-1 transition-colors border border-slate-200"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      <span>Save</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Quick Note Card */}
             <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm flex items-start gap-4">
               <div className="w-9 h-9 rounded-full bg-brand-gold-100 text-brand-gold-800 flex items-center justify-center shrink-0">
@@ -158,9 +232,9 @@ export const Contact: React.FC<ContactProps> = ({ selectedService, selectedVehic
               </div>
               <div className="text-xs text-slate-600 leading-relaxed">
                 <strong className="text-brand-navy-950 block text-sm font-serif mb-1">
-                  Personal Travel Assistance
+                  Personal Concierge Assistance
                 </strong>
-                Direct quotes are shared promptly over WhatsApp and phone. Tell us your date, preferred vehicle, or ticketing itinerary to get an immediate reply.
+                Direct quotes and booking confirmations are issued promptly over WhatsApp and phone. Tell us your date, vehicle, or ticketing itinerary to receive immediate attention.
               </div>
             </div>
           </div>

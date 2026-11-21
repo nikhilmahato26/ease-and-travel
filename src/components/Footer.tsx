@@ -1,20 +1,24 @@
 import React from 'react';
-import { Phone, MapPin, MessageSquare, Mail, ShieldAlert } from 'lucide-react';
+import { Phone, MapPin, MessageSquare, Mail, ShieldAlert, QrCode } from 'lucide-react';
 import { BUSINESS_CONFIG, createWhatsAppUrl } from '../config/business';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  onOpenPayment?: () => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onOpenPayment }) => {
   return (
     <footer className="bg-brand-navy-950 text-slate-300 border-t border-brand-gold-500/20 pt-16 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 pb-12 border-b border-white/10">
-          {/* Brand Info */}
+          {/* Brand Info with website-matched logo */}
           <div className="space-y-5">
             <div className="flex items-center gap-3">
-              <div className="bg-white p-2 rounded-md shadow-sm border border-brand-gold-500/30">
+              <div className="relative">
                 <img
-                  src="/assets/logo/logo.jpg"
+                  src="/assets/logo/logo-dark.png"
                   alt="EASE AND TRAVEL Logo"
-                  className="h-12 w-auto object-contain"
+                  className="h-14 w-auto object-contain drop-shadow-md"
                 />
               </div>
               <div>
@@ -32,8 +36,19 @@ export const Footer: React.FC = () => {
             </p>
 
             <p className="text-xs text-slate-400 leading-relaxed">
-              Curating refined travel experiences with a signature fleet of executive sedans, luxury MPVs, and dedicated ticketing and hotel reservation services.
+              Curating refined travel experiences with a signature fleet of executive sedans, luxury MPVs, pure electric grand tourers, and dedicated ticketing &amp; 5-star hotel concierge.
             </p>
+
+            {onOpenPayment && (
+              <button
+                type="button"
+                onClick={onOpenPayment}
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded bg-brand-gold-500/10 hover:bg-brand-gold-500 hover:text-brand-navy-950 text-brand-gold-400 border border-brand-gold-500/30 text-xs font-semibold tracking-wider uppercase transition-all duration-300"
+              >
+                <QrCode className="w-3.5 h-3.5" />
+                <span>UPI Payment Barcode / QR</span>
+              </button>
+            )}
           </div>
 
           {/* Quick Links */}
@@ -54,6 +69,18 @@ export const Footer: React.FC = () => {
                   </a>
                 </li>
               ))}
+              {onOpenPayment && (
+                <li>
+                  <button
+                    type="button"
+                    onClick={onOpenPayment}
+                    className="text-brand-gold-400 hover:underline transition-colors flex items-center gap-1.5 uppercase font-medium"
+                  >
+                    <QrCode className="w-3 h-3" />
+                    <span>Pay Online (UPI QR)</span>
+                  </button>
+                </li>
+              )}
             </ul>
           </div>
 

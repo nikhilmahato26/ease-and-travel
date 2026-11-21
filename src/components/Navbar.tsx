@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, Menu, X, ArrowUpRight } from 'lucide-react';
+import { Phone, Menu, X, ArrowUpRight, QrCode } from 'lucide-react';
 import { BUSINESS_CONFIG } from '../config/business';
 import { Button } from './Button';
 
 interface NavbarProps {
   onOpenBooking?: () => void;
+  onOpenPayment?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking, onOpenPayment }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -47,13 +48,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? 'bg-brand-navy-950/95 backdrop-blur-md shadow-luxury py-3 border-b border-brand-gold-500/20'
-          : 'bg-gradient-to-b from-brand-navy-950/90 via-brand-navy-950/50 to-transparent py-5'
+          ? 'bg-brand-navy-950/95 backdrop-blur-md shadow-luxury py-2.5 border-b border-brand-gold-500/20'
+          : 'bg-gradient-to-b from-brand-navy-950/95 via-brand-navy-950/60 to-transparent py-4'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          {/* Logo */}
+          {/* Logo with matching website color & transparent backdrop */}
           <a
             href="#hero"
             onClick={(e) => {
@@ -63,11 +64,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
             className="flex items-center gap-3 group focus:outline-none"
             aria-label="EASE AND TRAVEL - Home"
           >
-            <div className="relative overflow-hidden rounded-md bg-white p-1.5 shadow-sm transition-transform duration-300 group-hover:scale-105 border border-brand-gold-500/30">
+            <div className="relative transition-transform duration-300 group-hover:scale-105 flex items-center">
               <img
-                src="/assets/logo/logo.jpg"
+                src="/assets/logo/logo-dark.png"
                 alt="EASE AND TRAVEL Logo"
-                className="h-9 sm:h-11 md:h-12 w-auto object-contain"
+                className="h-10 sm:h-12 md:h-14 w-auto object-contain drop-shadow-md"
               />
             </div>
             <div className="flex flex-col">
@@ -108,8 +109,21 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
             </a>
           </nav>
 
-          {/* Actions: Phone & Book CTA */}
-          <div className="hidden md:flex items-center gap-4">
+          {/* Actions: Phone, Pay QR & Book CTA */}
+          <div className="hidden md:flex items-center gap-3 xl:gap-4">
+            {/* Pay QR Button */}
+            {onOpenPayment && (
+              <button
+                type="button"
+                onClick={onOpenPayment}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold uppercase tracking-wider text-brand-gold-400 bg-brand-gold-500/10 hover:bg-brand-gold-500 hover:text-brand-navy-950 border border-brand-gold-500/30 transition-all duration-300"
+                title="Scan UPI QR Code for Booking Advance"
+              >
+                <QrCode className="w-3.5 h-3.5" />
+                <span>Pay QR</span>
+              </button>
+            )}
+
             <a
               href={`tel:${BUSINESS_CONFIG.phoneRaw}`}
               className="flex items-center gap-2 text-slate-200 hover:text-brand-gold-400 transition-colors text-xs font-semibold tracking-wider group"
@@ -131,8 +145,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
             </Button>
           </div>
 
-          {/* Mobile Hamburger Button */}
+          {/* Mobile Actions Button */}
           <div className="flex md:hidden items-center gap-2">
+            {onOpenPayment && (
+              <button
+                type="button"
+                onClick={onOpenPayment}
+                className="p-2 text-brand-gold-400 rounded-md hover:bg-white/10"
+                aria-label="Payment QR code"
+              >
+                <QrCode className="w-5 h-5" />
+              </button>
+            )}
+
             <a
               href={`tel:${BUSINESS_CONFIG.phoneRaw}`}
               className="p-2 text-brand-gold-400 rounded-md hover:bg-white/10"
@@ -156,7 +181,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
       {/* Mobile Slide-down Drawer */}
       <div
         className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out bg-brand-navy-950/98 border-b border-brand-gold-500/20 backdrop-blur-xl ${
-          mobileMenuOpen ? 'max-h-[500px] opacity-100 py-6' : 'max-h-0 opacity-0 py-0'
+          mobileMenuOpen ? 'max-h-[550px] opacity-100 py-6' : 'max-h-0 opacity-0 py-0'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 space-y-4">
@@ -177,6 +202,20 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
           </div>
 
           <div className="pt-4 border-t border-brand-gold-500/20 flex flex-col gap-3">
+            {onOpenPayment && (
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenPayment();
+                }}
+                className="py-2.5 px-4 rounded bg-brand-gold-500/20 text-brand-gold-300 border border-brand-gold-500/40 text-xs uppercase font-bold tracking-wider flex items-center justify-center gap-2"
+              >
+                <QrCode className="w-4 h-4" />
+                <span>UPI Payment Barcode / QR</span>
+              </button>
+            )}
+
             <a
               href={`tel:${BUSINESS_CONFIG.phoneRaw}`}
               className="flex items-center gap-3 text-slate-200 text-sm font-medium"

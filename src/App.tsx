@@ -4,6 +4,7 @@ import { Footer } from './components/Footer';
 import { WhatsAppButton } from './components/WhatsAppButton';
 import { BackToTop } from './components/BackToTop';
 import { QuickBookingBar } from './components/QuickBookingBar';
+import { PaymentModal } from './components/PaymentModal';
 import { Hero } from './sections/Hero';
 import { About } from './sections/About';
 import { Fleet } from './sections/Fleet';
@@ -17,6 +18,7 @@ import { Contact } from './sections/Contact';
 export const App: React.FC = () => {
   const [selectedService, setSelectedService] = useState<string>("Car Rental");
   const [selectedVehicle, setSelectedVehicle] = useState<string | undefined>("Mercedes-Benz E-Class");
+  const [isPaymentOpen, setIsPaymentOpen] = useState(false);
 
   const scrollToSection = (id: string) => {
     const el = document.querySelector(id);
@@ -36,7 +38,10 @@ export const App: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF9F6] text-slate-800 font-sans selection:bg-brand-gold-500 selection:text-brand-navy-950">
       {/* Sticky Header Navigation */}
-      <Navbar onOpenBooking={() => scrollToSection('#contact')} />
+      <Navbar
+        onOpenBooking={() => scrollToSection('#contact')}
+        onOpenPayment={() => setIsPaymentOpen(true)}
+      />
 
       {/* Main Content Sections */}
       <main className="flex-grow">
@@ -52,7 +57,7 @@ export const App: React.FC = () => {
         {/* Brand Editorial & Services Highlight */}
         <About onSelectService={handleSelectServiceFromAnywhere} />
 
-        {/* Signature Fleet Showcase (All 8 Vehicles) */}
+        {/* Signature Fleet Showcase (All Real Vehicles) */}
         <Fleet />
 
         {/* Car Rental Services & Category Matching */}
@@ -70,15 +75,22 @@ export const App: React.FC = () => {
         {/* Asymmetric Lightbox Gallery */}
         <GallerySection />
 
-        {/* Official Contact & Direct Booking Form */}
+        {/* Official Contact & Direct Booking Form & Payment QR */}
         <Contact
           selectedService={selectedService}
           selectedVehicle={selectedVehicle}
+          onOpenPayment={() => setIsPaymentOpen(true)}
         />
       </main>
 
       {/* Premium Dark Navy Footer */}
-      <Footer />
+      <Footer onOpenPayment={() => setIsPaymentOpen(true)} />
+
+      {/* Official UPI Payment Barcode Modal */}
+      <PaymentModal
+        isOpen={isPaymentOpen}
+        onClose={() => setIsPaymentOpen(false)}
+      />
 
       {/* Floating WhatsApp Action Button */}
       <WhatsAppButton />
